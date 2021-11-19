@@ -1,6 +1,6 @@
 # Concurrent Caching Web Proxy
 Lab pratice based on the CS:APP textbook.
-A simple HTTP proxy written in C that caches web objects and can handle concurrent requests
+A simple HTTP proxy written in C that caches web objects and can handle concurrent requests (see implementation in source code proxy.c).
 
 ## Author
 Walt Li, Eric Gassel
