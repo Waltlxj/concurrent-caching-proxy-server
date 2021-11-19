@@ -1,0 +1,26 @@
+Note: the following test cases terminal commands assume proxy
+and tiny server started and running on specified ports.
+
+--------------- Implemented ----------------
+
+1. Invalid or malformed HTTP requests
+--- URI that doesn't start with "http://"
+    TESTING: linux> curl -v --proxy http://localhost:15214 https://localhost:15213/home.html
+    How is it handled? - the proxy server will output the error message: 
+                         "The proxy cannot handle this request." and close connection
+--- URI that has ':' after HOSTNAME:PORT
+    TESTING: linux> curl -v --proxy http://localhost:15214 https://localhost:15213/:home.html
+    How is it handled? - the proxy server will output the error message: 
+                         "Proxy cannot handle URIs with ':' after HOSTNAME:PORT" and close connection
+
+--------------- NOT Implemented ----------------
+1. Unlimited Cache Memory
+TESTING: Step 1. Put a giant file giant.txt into tiny server directory root directory
+         Step 2. Modified tiny server so it would correctly return giant.txt to client if request
+         Step 3. linux> curl -v --proxy http://localhost:15214 https://localhost:15213/giant.txt
+Problem: If the giant.txt is too huge, it will take up too much of the memory, and the system will be unhappy.
+
+2. Proxy exited if server not running/closed
+TESTING: Step 1: Start proxy and stop server
+         Step 2. linux> curl -v --proxy http://localhost:15214 https://localhost:15213/home.html
+Problem: Proxy terminated if the attempt to connect to server is refused, we want it to keep running.
